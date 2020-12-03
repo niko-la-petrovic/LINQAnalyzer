@@ -1,5 +1,5 @@
 # LINQAnalyzer
-![nuget](https://img.shields.io/nuget/v/LINQAnalyzer)![vs marketplace](https://img.shields.io/visual-studio-marketplace/v/LINQAnalyzer.1de9f7e6-2e59-478c-92de-06a761762a9a)
+![nuget](https://img.shields.io/nuget/v/LINQAnalyzer)
 
 A Diagnostic extension for the C# .NET Compiler Platform ("Roslyn") to analyze LINQ.
 
