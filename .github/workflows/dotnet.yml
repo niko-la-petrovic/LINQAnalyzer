@@ -15,11 +15,6 @@ jobs:
         DOTNET_NOLOGO: true
         DOTNET_CLI_TELEMETRY_OPTOUT: true
 
-    strategy:
-      fail-fast: true
-      matrix:
-        project: [ LINQAnalyzer, LINQAnalyzer.CodeFixes ]
-
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +23,12 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore ${{ matrix.project }}
-    - name: Build
-      run: dotnet build --no-restore ${{ matrix.project }}
+      run: dotnet restore
+    
+    - name: Build LINQAnalyzer
+      run: dotnet build --no-restore LINQAnalyzer
+    - name: Build LINQAnalyzer.CodeFixes
+      run: dotnet build --no-restore LINQAnalyzer.CodeFixes
         
     
     #- name: Test
