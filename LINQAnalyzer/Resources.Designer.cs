@@ -70,7 +70,7 @@ namespace LINQAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; can be selected..
+        ///   Looks up a localized string similar to &apos;{0}&apos; can be selected.
         /// </summary>
         internal static string AnalyzerMessageFormat {
             get {
