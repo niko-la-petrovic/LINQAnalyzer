@@ -29,7 +29,8 @@ jobs:
       run: dotnet build --no-restore LINQAnalyzer
     - name: Build LINQAnalyzer.CodeFixes
       run: dotnet build --no-restore LINQAnalyzer.CodeFixes
-        
-    
-    #- name: Test
-    #  run: dotnet test --no-restore --verbosity normal
+    - name: Build LINQAnalyzer.Test
+      run: dotnet build --no-restore LINQAnalyzer.Test
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
