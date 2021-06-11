@@ -1,5 +1,7 @@
 # LINQAnalyzer
 ![nuget](https://img.shields.io/nuget/v/LINQAnalyzer)
+[![Build and test master](https://github.com/niko-la-petrovic/LINQAnalyzer/actions/workflows/msbuild.yml/badge.svg?branch=master)](https://github.com/niko-la-petrovic/LINQAnalyzer/actions/workflows/msbuild.yml)
+[![Build and test develop](https://github.com/niko-la-petrovic/LINQAnalyzer/actions/workflows/dotnet.yml/badge.svg?branch=develop)](https://github.com/niko-la-petrovic/LINQAnalyzer/actions/workflows/dotnet.yml)
 
 A Diagnostic extension for the C# .NET Compiler Platform ("Roslyn") to analyze LINQ.
 
