@@ -9,12 +9,12 @@
 
   <PropertyGroup>
     <PackageId>LINQAnalyzer</PackageId>
-    <PackageVersion>1.0.0.1</PackageVersion>
+    <PackageVersion>1.0.0.2</PackageVersion>
     <Authors>niko-la-petrovic</Authors>
-    <!--<PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
-    <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
-    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>-->
+    <!--<PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>-->
+    <PackageProjectUrl>https://github.com/niko-la-petrovic/LINQAnalyzer</PackageProjectUrl>
+    <!--<PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>-->
+    <RepositoryUrl>https://github.com/niko-la-petrovic/LINQAnalyzer</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>LINQ Analyzer</Description>
     <PackageReleaseNotes>Initial Relase.</PackageReleaseNotes>
