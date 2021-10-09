@@ -4,24 +4,22 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.CodeAnalysis.Rename;
-using Microsoft.CodeAnalysis.Text;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace LINQAnalyzer
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(LINQAnalyzerCodeFixProvider)), Shared]
-    public class LINQAnalyzerCodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SelectInvocationCodeFixProvider)), Shared]
+    public class SelectInvocationCodeFixProvider : CodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(LINQAnalyzerAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(SelectInvocationAnalyzer.DiagnosticId); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -36,17 +34,21 @@ namespace LINQAnalyzer
             var diagnostic = context.Diagnostics.First();
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
-            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<InvocationExpressionSyntax>().First();
+            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                .OfType<InvocationExpressionSyntax>().First();
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: CodeFixResources.CodeFixTitle,
+                    title: CodeFixResources.SelectInvocationAddSelect,
                     createChangedDocument: c => AddMakeSelectStatementAsync(context.Document, declaration, c),
-                    equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
+                    equivalenceKey: nameof(CodeFixResources.SelectInvocationAddSelect)),
                 diagnostic);
         }
 
-        private async Task<Document> AddMakeSelectStatementAsync(Document document, InvocationExpressionSyntax invocationExpression, CancellationToken cancellationToken)
+        protected async Task<Document> AddMakeSelectStatementAsync(
+            Document document,
+            InvocationExpressionSyntax invocationExpression,
+            CancellationToken cancellationToken)
         {
             var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
             var methodSymbol = semanticModel
@@ -55,10 +57,10 @@ namespace LINQAnalyzer
 
             var returnTypeSymbol = methodSymbol.ReturnType;
 
-            var selectExpressionSyntax = SyntaxFactory.MemberAccessExpression(
+            var selectExpressionSyntax = MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression,
                 invocationExpression,
-    SyntaxFactory.IdentifierName("Select"));
+    IdentifierName("Select"));
 
             var namedReturnTypeSymbol = (INamedTypeSymbol)returnTypeSymbol;
 
@@ -72,9 +74,9 @@ namespace LINQAnalyzer
             // if it does. add more letters from the class name and check again
             // until the entire class name is exhausted?
             var parameterName = genericTypeSymbol.Name.ToLower().Substring(0, 1);
-            var parameter = SyntaxFactory.Parameter(
-                SyntaxFactory.Identifier(parameterName)
-                .WithTrailingTrivia(SyntaxFactory.Space));
+            var parameter = Parameter(
+                Identifier(parameterName)
+                .WithTrailingTrivia(Space));
 
             var initializerNodesAndTokens = new List<SyntaxNodeOrToken>();
             var publicMembers = genericTypeSymbol.GetMembers().Where(m => m.Kind == SymbolKind.Property);
@@ -83,60 +85,60 @@ namespace LINQAnalyzer
             foreach (var property in publicMembers)
             {
                 initializerNodesAndTokens.Add(
-                    SyntaxFactory.AssignmentExpression(
+                    AssignmentExpression(
                         SyntaxKind.SimpleAssignmentExpression,
-                        SyntaxFactory.IdentifierName(
-                            SyntaxFactory.Identifier(property.Name)
-                            .WithTrailingTrivia(SyntaxFactory.Space)),
-                        SyntaxFactory.MemberAccessExpression(
+                        IdentifierName(
+                            Identifier(property.Name)
+                            .WithTrailingTrivia(Space)),
+                        MemberAccessExpression(
                             SyntaxKind.SimpleMemberAccessExpression,
-                            SyntaxFactory.IdentifierName(parameterName),
-                            SyntaxFactory.IdentifierName(
-                                SyntaxFactory.Identifier(property.Name))))
+                            IdentifierName(parameterName),
+                            IdentifierName(
+                                Identifier(property.Name))))
                     .WithOperatorToken(
-                        SyntaxFactory.Token(SyntaxKind.EqualsToken)
-                        .WithTrailingTrivia(SyntaxFactory.Space)));
+                        Token(SyntaxKind.EqualsToken)
+                        .WithTrailingTrivia(Space)));
 
                 if (!SymbolEqualityComparer.Default.Equals(publicMembers.Last(), property))
                     initializerNodesAndTokens.Add(
-                        SyntaxFactory.Token(SyntaxKind.CommaToken)
-                        .WithTrailingTrivia(SyntaxFactory.Space));
+                        Token(SyntaxKind.CommaToken)
+                        .WithTrailingTrivia(Space));
             }
 
-            var typeName = SyntaxFactory.ParseTypeName(genericTypeSymbolName);
+            var typeName = ParseTypeName(genericTypeSymbolName);
 
-            var lambda = SyntaxFactory.SimpleLambdaExpression(parameter,
-                    SyntaxFactory.ObjectCreationExpression(
+            var lambda = SimpleLambdaExpression(parameter,
+                    ObjectCreationExpression(
                         typeName
-                        .WithTrailingTrivia(SyntaxFactory.Space))
+                        .WithTrailingTrivia(Space))
                     .WithNewKeyword(
-                        SyntaxFactory.Token(SyntaxKind.NewKeyword)
-                        .WithTrailingTrivia(SyntaxFactory.Space))
+                        Token(SyntaxKind.NewKeyword)
+                        .WithTrailingTrivia(Space))
                     .WithInitializer(
-                        SyntaxFactory.InitializerExpression(SyntaxKind.ObjectInitializerExpression,
-                            SyntaxFactory.SeparatedList<ExpressionSyntax>(initializerNodesAndTokens))
+                        InitializerExpression(SyntaxKind.ObjectInitializerExpression,
+                            SeparatedList<ExpressionSyntax>(initializerNodesAndTokens))
                         .WithOpenBraceToken(
-                            SyntaxFactory.Token(SyntaxKind.OpenBraceToken)
-                            .WithTrailingTrivia(SyntaxFactory.Space))
+                            Token(SyntaxKind.OpenBraceToken)
+                            .WithTrailingTrivia(Space))
                         .WithCloseBraceToken(
-                            SyntaxFactory.Token(SyntaxKind.CloseBraceToken)
-                            .WithLeadingTrivia(SyntaxFactory.Space))))
+                            Token(SyntaxKind.CloseBraceToken)
+                            .WithLeadingTrivia(Space))))
                 .WithArrowToken(
-                    SyntaxFactory.Token(SyntaxKind.EqualsGreaterThanToken)
-                    .WithLeadingTrivia(SyntaxFactory.Space)
-                    .WithTrailingTrivia(SyntaxFactory.Space));
+                    Token(SyntaxKind.EqualsGreaterThanToken)
+                    .WithLeadingTrivia(Space)
+                    .WithTrailingTrivia(Space));
 
-            var selectInvocationExpression = SyntaxFactory.InvocationExpression(selectExpressionSyntax)
+            var selectInvocationExpression = InvocationExpression(selectExpressionSyntax)
                 .WithArgumentList(
-                SyntaxFactory.ArgumentList(
-                    SyntaxFactory.SingletonSeparatedList<ArgumentSyntax>(SyntaxFactory.Argument(lambda))));
+                ArgumentList(
+                    SingletonSeparatedList(Argument(lambda))));
 
             // replace original invocation with this one
 
             var formattedLocal = selectInvocationExpression.WithAdditionalAnnotations(Formatter.Annotation);
 
-            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken);
-            var newRoot = oldRoot.ReplaceNode(invocationExpression, formattedLocal);
+            var root = await document.GetSyntaxRootAsync(cancellationToken);
+            var newRoot = root.ReplaceNode(invocationExpression, formattedLocal);
 
             return document.WithSyntaxRoot(newRoot);
         }

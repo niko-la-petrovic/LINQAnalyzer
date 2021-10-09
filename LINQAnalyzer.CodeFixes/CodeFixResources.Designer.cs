@@ -61,11 +61,20 @@ namespace LINQAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Select Invocation.
+        ///   Looks up a localized string similar to Map enum to bool columns.
         /// </summary>
-        internal static string CodeFixTitle {
+        internal static string ICollectionEnumToBoolColum {
             get {
-                return ResourceManager.GetString("CodeFixTitle", resourceCulture);
+                return ResourceManager.GetString("ICollectionEnumToBoolColum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Select invocation.
+        /// </summary>
+        internal static string SelectInvocationAddSelect {
+            get {
+                return ResourceManager.GetString("SelectInvocationAddSelect", resourceCulture);
             }
         }
     }

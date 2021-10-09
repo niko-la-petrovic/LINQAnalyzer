@@ -1,6 +1,8 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Testing;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using System.Collections.Generic;
 
 namespace LINQAnalyzer.Test
 {
@@ -21,6 +23,12 @@ namespace LINQAnalyzer.Test
                     return solution;
                 });
             }
+
+            public Test(IEnumerable<MetadataReference> metadataReferences) : this()
+            {
+                TestState.AdditionalReferences.AddRange(metadataReferences);
+            }
+
         }
     }
 }

@@ -117,15 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
+  <data name="ICollectionAnalyzerDescription" xml:space="preserve">
+    <value>Suggests ICollection modifications.</value>
+  </data>
+  <data name="ICollectionAnalyzerMessageFormat" xml:space="preserve">
+    <value>'{0}' can be modified</value>
+  </data>
+  <data name="ICollectionAnalyzerTitle" xml:space="preserve">
+    <value>Change ICollection</value>
+  </data>
+  <data name="SelectInvocationAnalyzerDescription" xml:space="preserve">
     <value>Suggests Select invocations.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
+  <data name="SelectInvocationAnalyzerMessageFormat" xml:space="preserve">
     <value>'{0}' can be selected</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
+  <data name="SelectInvocationAnalyzerTitle" xml:space="preserve">
     <value>Add Select</value>
     <comment>The title of the diagnostic.</comment>
   </data>

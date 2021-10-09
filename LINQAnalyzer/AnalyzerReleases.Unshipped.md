@@ -4,4 +4,5 @@
 ### New Rules
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-LINQAnalyzer | LINQ | Info | LINQAnalyzerAnalyzer
+LA0001 | LINQ | Info | 
+LA0002 | LINQ | Info | 

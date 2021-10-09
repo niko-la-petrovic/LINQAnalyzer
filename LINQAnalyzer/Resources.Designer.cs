@@ -61,29 +61,56 @@ namespace LINQAnalyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Suggests ICollection modifications..
+        /// </summary>
+        internal static string ICollectionAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ICollectionAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; can be modified.
+        /// </summary>
+        internal static string ICollectionAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ICollectionAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change ICollection.
+        /// </summary>
+        internal static string ICollectionAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ICollectionAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suggests Select invocations..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string SelectInvocationAnalyzerDescription {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("SelectInvocationAnalyzerDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; can be selected.
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string SelectInvocationAnalyzerMessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("SelectInvocationAnalyzerMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add Select.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string SelectInvocationAnalyzerTitle {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("SelectInvocationAnalyzerTitle", resourceCulture);
             }
         }
     }
